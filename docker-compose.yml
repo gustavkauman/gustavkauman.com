@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  web:
+    container_name: 'gustavkauman.com_web'
+    image: gustavkauman/docker-laravel:latest
+    expose:
+      - 9000
+    ports:
+      - 80:80
+    volumes:
+      - ./:/var/www
+    links:
+      - db:mysql
+    working_dir: /var/www
+  db:
+    container_name: 'gustavkauman.com_db'
+    image: mysql:8.0.19
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: gustavkauman_com
+      MYSQL_USER: gustav
+      MYSQL_PASSWORD: gustav
+      MYSQL_ROOT_PASSWORD: root
