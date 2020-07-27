@@ -47,4 +47,13 @@ class User extends Authenticatable
         return $this->belongsToMany(UserGroup::class);
     }
 
+    /**
+     * Get the posts made by the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

@@ -18,6 +18,11 @@ Route::get('/', 'HomeController@home');
 // blog
 Route::prefix('blog')->group(function () {
     Route::get('/', 'PostController@index')->name('post.index');
+
+    Route::middleware(['auth'])->group(function () {
+        Route::put('/posts', 'PostController@store')->name('post.put');
+    });
+
 });
 
 // user groups
