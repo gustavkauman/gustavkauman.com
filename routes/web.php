@@ -19,3 +19,11 @@ Route::get('/', 'HomeController@home');
 Route::prefix('blog')->group(function () {
     Route::get('/', 'PostController@index')->name('post.index');
 });
+
+// user groups
+Route::prefix('user-groups')->group(function () {
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/', 'UserGroupController@index')->name('user-groups.index');
+        Route::put('/', 'UserGroupController@store')->name('user-groups.put');
+    });
+});
