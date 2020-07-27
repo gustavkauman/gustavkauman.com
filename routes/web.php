@@ -13,5 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@home');
-Route::get('/blog', 'PostController@index')->name('post.index');
+Route::get('/', function () {
+    return view('welcome');
+});
