@@ -52,5 +52,14 @@ class PostsTest extends TestCase
         $this->assertDatabaseHas('posts', $post->getAttributes());
     }
 
+	/** @test */
+	public function an_unknown_user_can_get_a_blog_post_via_json()
+	{
+		$this->withoutExceptionHandling();
+		$post = factory(Post::class)->create(['author_id' => factory(User::class)->create()->id]);
+
+		$response = $this->getJson(route('post.get', ['post' => $post]));
+		$response->assertSuccessful();
+	}
 
 }

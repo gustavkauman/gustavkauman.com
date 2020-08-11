@@ -32,7 +32,7 @@ class PostController extends Controller
 	 */
 	public function get(Request $request, Post $post)
 	{
-		if ($this->wantsJson()) {
+		if ($request->wantsJson()) {
 			return $post;	
 		}
 
@@ -75,7 +75,7 @@ class PostController extends Controller
 
 		$post->delete();
 
-		if ($this->wantsJson()) {
+		if ($request->wantsJson()) {
 			return response()->json(['success' => 'Blog post successfully deleted']);
 		}
 
