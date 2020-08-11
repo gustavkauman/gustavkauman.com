@@ -22,6 +22,7 @@ Route::prefix('blog')->group(function () {
 
     Route::middleware(['auth'])->group(function () {
         Route::put('/posts', 'PostController@store')->name('post.put');
+		Route::delete('/post/{post}', 'PostController@destroy')->name('post.destroy');
     });
 
 });
