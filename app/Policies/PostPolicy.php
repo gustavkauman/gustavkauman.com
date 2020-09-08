@@ -27,4 +27,8 @@ class PostPolicy
         return $authors->users->contains($user);
     }
 
+	public function destory(User $user, Post $post)
+	{
+		return $post->author->is($user);
+	}
 }

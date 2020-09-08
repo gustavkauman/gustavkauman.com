@@ -18,9 +18,11 @@ Route::get('/', 'HomeController@home');
 // blog
 Route::prefix('blog')->group(function () {
     Route::get('/', 'PostController@index')->name('post.index');
+	Route::get('/post/{post}', 'PostController@get')->name('post.get');
 
     Route::middleware(['auth'])->group(function () {
         Route::put('/posts', 'PostController@store')->name('post.put');
+		Route::delete('/post/{post}', 'PostController@destroy')->name('post.destroy');
     });
 
 });

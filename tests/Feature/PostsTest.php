@@ -52,5 +52,35 @@ class PostsTest extends TestCase
         $this->assertDatabaseHas('posts', $post->getAttributes());
     }
 
+	/** @test */
+	public function an_unknown_user_can_get_a_blog_post_via_json()
+	{
+		$this->withoutExceptionHandling();
+		$post = factory(Post::class)->create(['author_id' => factory(User::class)->create()->id]);
 
+		$response = $this->getJson(route('post.get', ['post' => $post]));
+		$response->assertSuccessful();
+	}
+
+	/** @test */
+	public function the_author_of_post_can_delete_it()
+	{
+		$post = factory(Post::class)->create(['author_id' => ($author = factory(User::class)->create())->id]);
+
+		$response = $this->actingAs($author)->deleteJson(route('post.destroy', ['post' => $post]));
+		$response->assertSuccessful();
+		$this->assertDatabaseMissing('posts', $post->getAttributes());
+	}
+
+	/** @test */
+	public function a_user_cant_delete_another_users_post()
+	{
+		$author = factory(User::class)->create();
+		$user = factory(User::class)->create();
+		$post = factory(Post::class)->create(['author_id' => $author->id]);
+
+		$response = $this->actingAs($user)->deleteJson(route('post.destroy', ['post' => $post]));
+		$response->assertStatus(403); // assert that the action is unauthorized
+		$this->assertDatabaseHas('posts', $post->getAttributes());
+	}
 }
